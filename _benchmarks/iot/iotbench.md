@@ -286,6 +286,7 @@ if __name__ == "__main__":
 - **Intel NUC**: ~5000 msg/sec, latence <10ms
 
 ### Comparaison de protocoles
+
 | Protocole | Latence (ms) | Débit (msg/s) | Overhead (%) |
 |-----------|--------------|---------------|--------------|
 | MQTT | 45 | 1250 | 15 |

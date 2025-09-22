@@ -281,6 +281,7 @@ print(f"Efficacité énergétique: {efficiency:.2f} MFLOPS/Watt")
 - **Seuil d'entrée**: ~5 GFLOPS/Watt
 
 ### Comparaison par architecture
+
 | Architecture | GFLOPS/Watt typique | Avantages | Inconvénients |
 |--------------|-------------------|-----------|---------------|
 | GPU NVIDIA A100 | 40-60 | Très haute efficacité | Coût élevé |

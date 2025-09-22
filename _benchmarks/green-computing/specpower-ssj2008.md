@@ -184,6 +184,7 @@ test.cooldown=5   # minutes de refroidissement
 - **Serveurs ancienne génération**: <8 ssj_ops/watt
 
 ### Comparaison avec d'autres outils
+
 | Outil | Focus | Métrique | Avantages |
 |-------|-------|----------|-----------|
 | SPECpower | Serveurs | ssj_ops/watt | Standard industrie |

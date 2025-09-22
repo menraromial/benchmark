@@ -420,6 +420,7 @@ done
 - **Platform Energy**: Énergie de la plateforme (Skylake+)
 
 ### Précision et limites
+
 | Architecture | Précision Package | Précision DRAM | Fréquence mise à jour |
 |--------------|------------------|----------------|----------------------|
 | Sandy Bridge | ±5% | N/A | ~1ms |
@@ -429,6 +430,7 @@ done
 | Ice Lake | ±2% | ±3% | ~1ms |
 
 ### Comparaison avec autres méthodes
+
 | Méthode | Précision | Overhead | Granularité | Coût |
 |---------|-----------|----------|-------------|------|
 | RAPL | ±2-5% | <1% | Domaine | Gratuit |

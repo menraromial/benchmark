@@ -165,12 +165,12 @@
 - [x] 10.2 Research and document green computing benchmarks
 
   - Research energy efficiency benchmarks (SPECpower, Green500, etc.)
-  - Create guides for top 3 green computing benchmarks
+  - Create guides for top 5 green computing benchmarks
   - Include energy measurement methodologies
   - Add sustainability metrics and best practices
   - _Requirements: 2.1, 2.2, 6.1_
 
-- [ ] 10.3 Research and document distributed systems benchmarks
+- [x] 10.3 Research and document distributed systems benchmarks
 
   - Research distributed system benchmarks (YCSB, TPC-C, Jepsen, etc.)
   - Create guides for top 5 distributed systems benchmarks
@@ -181,7 +181,7 @@
 - [ ] 10.4 Research and document IoT benchmarks
 
   - Research IoT-specific benchmarks (IoTBench, EdgeBench, etc.)
-  - Create guides for top 3 IoT benchmarks
+  - Create guides for top 5 IoT benchmarks
   - Include edge computing and sensor simulation setup
   - Add latency and throughput measurement procedures
   - _Requirements: 2.1, 2.2, 6.1_
@@ -189,7 +189,7 @@
 - [ ] 10.5 Research and document energy benchmarks
 
   - Research energy system benchmarks (PowerAPI, RAPL, etc.)
-  - Create guides for top 3 energy measurement tools
+  - Create guides for top 5 energy measurement tools
   - Include hardware setup and calibration procedures
   - Add energy profiling and optimization techniques
   - _Requirements: 2.1, 2.2, 6.1_

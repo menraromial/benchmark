@@ -180,6 +180,77 @@ for threads in 1 2 4 8 16 32; do
 done
 ```
 
+### Configuration cluster distribué
+```bash
+# Configuration MongoDB Replica Set
+# Initialiser le replica set
+mongo --eval "
+rs.initiate({
+  _id: 'rs0',
+  members: [
+    {_id: 0, host: 'mongo1:27017'},
+    {_id: 1, host: 'mongo2:27017'},
+    {_id: 2, host: 'mongo3:27017'}
+  ]
+})
+"
+
+# Test avec cluster distribué
+./bin/ycsb.sh load mongodb -s \
+  -P workloads/workloada \
+  -p mongodb.url=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/ycsb?replicaSet=rs0 \
+  -p mongodb.readPreference=secondaryPreferred \
+  -p mongodb.writeConcern=majority
+
+# Configuration Cassandra Cluster
+# Test avec cluster Cassandra 3 nœuds
+./bin/ycsb.sh load cassandra-cql -s \
+  -P workloads/workloada \
+  -p hosts=cassandra1,cassandra2,cassandra3 \
+  -p port=9042 \
+  -p cassandra.keyspace=ycsb \
+  -p cassandra.readconsistencylevel=QUORUM \
+  -p cassandra.writeconsistencylevel=QUORUM
+```
+
+### Test de consistance et tolérance aux pannes
+```bash
+#!/bin/bash
+# Test de consistance avec pannes de nœuds
+
+# 1. Test de consistance forte
+echo "Testing strong consistency..."
+./bin/ycsb.sh run mongodb -s \
+  -P workloads/workloada \
+  -p mongodb.url=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/ycsb?replicaSet=rs0 \
+  -p mongodb.readConcern=majority \
+  -p mongodb.writeConcern=majority \
+  -p operationcount=100000 \
+  > consistency_strong.txt
+
+# 2. Test avec panne d'un nœud secondaire
+echo "Stopping secondary node..."
+docker stop mongo2
+
+./bin/ycsb.sh run mongodb -s \
+  -P workloads/workloadb \
+  -p mongodb.url=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/ycsb?replicaSet=rs0 \
+  -p mongodb.readPreference=primaryPreferred \
+  -p operationcount=50000 \
+  > consistency_node_down.txt
+
+# 3. Redémarrer le nœud et tester la récupération
+echo "Restarting secondary node..."
+docker start mongo2
+sleep 30
+
+./bin/ycsb.sh run mongodb -s \
+  -P workloads/workloadc \
+  -p mongodb.url=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/ycsb?replicaSet=rs0 \
+  -p operationcount=50000 \
+  > consistency_recovery.txt
+```
+
 ### Cas d'usage avancés
 ```bash
 # Test avec distribution de charge personnalisée
@@ -255,6 +326,7 @@ plt.savefig('ycsb_scalability.png')
 ```
 
 ### Comparaison de systèmes
+
 | Système | Workload A (ops/sec) | Workload B (ops/sec) | Latence P99 (ms) |
 |---------|---------------------|---------------------|------------------|
 | MongoDB | 45,000 | 85,000 | 12.5 |

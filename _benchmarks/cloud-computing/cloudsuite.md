@@ -194,6 +194,7 @@ python3 scripts/plot_results.py --results results.json --output plots/
 - **CPU usage**: 60-80% pour transcodage temps réel
 
 ### Comparaison avec d'autres outils
+
 | Outil | Focus | Réalisme | Complexité | License |
 |-------|-------|----------|------------|---------|
 | CloudSuite | Applications réelles | Très élevé | Moyenne | Open Source |

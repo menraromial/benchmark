@@ -329,6 +329,7 @@ powerapi analyze --input power_consumption.csv --benchmark spec_cpu
 - **Overhead**: <2% de CPU pour le monitoring
 
 ### Comparaison avec d'autres outils
+
 | Outil | Granularité | Précision | Overhead | Plateformes |
 |-------|-------------|-----------|----------|-------------|
 | PowerAPI | Processus | ±5-10% | <2% | Linux, macOS |
