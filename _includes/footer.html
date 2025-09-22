@@ -1,0 +1,243 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    
+    <!-- Main footer content -->
+    <div class="footer-content">
+      <div class="row">
+        
+        <!-- About section -->
+        <div class="col-md-4">
+          <div class="footer-section">
+            <h3 class="footer-title">{{ site.title | default: "Research Benchmark Hub" }}</h3>
+            <p class="footer-description">
+              {{ site.description | default: "Hub centralisé de benchmarks pour la recherche en informatique dans les domaines du cloud computing, green computing, systèmes distribués, IoT, énergie, calcul parallèle et HPC." }}
+            </p>
+            
+            <!-- Social links -->
+            {% if site.github_username or site.twitter_username or site.linkedin_username %}
+            <div class="footer-social">
+              {% if site.github_username %}
+                <a href="https://github.com/{{ site.github_username }}" class="social-link" aria-label="GitHub" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i>
+                </a>
+              {% endif %}
+              {% if site.twitter_username %}
+                <a href="https://twitter.com/{{ site.twitter_username }}" class="social-link" aria-label="Twitter" target="_blank" rel="noopener">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              {% endif %}
+              {% if site.linkedin_username %}
+                <a href="https://linkedin.com/in/{{ site.linkedin_username }}" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
+                  <i class="fab fa-linkedin"></i>
+                </a>
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        
+        <!-- Quick links -->
+        <div class="col-md-2">
+          <div class="footer-section">
+            <h4 class="footer-subtitle">Navigation</h4>
+            <ul class="footer-links">
+              <li><a href="{{ '/' | relative_url }}">Accueil</a></li>
+              <li><a href="{{ '/benchmarks/' | relative_url }}">Tous les Benchmarks</a></li>
+              <li><a href="{{ '/about/' | relative_url }}">À propos</a></li>
+              <li><a href="{{ '/contribute/' | relative_url }}">Contribuer</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Categories -->
+        <div class="col-md-3">
+          <div class="footer-section">
+            <h4 class="footer-subtitle">Catégories</h4>
+            <ul class="footer-links">
+              {% for category in site.data.categories limit: 6 %}
+                <li>
+                  <a href="{{ '/categories/' | append: category.id | relative_url }}">
+                    {{ category.name }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Resources -->
+        <div class="col-md-3">
+          <div class="footer-section">
+            <h4 class="footer-subtitle">Ressources</h4>
+            <ul class="footer-links">
+              <li><a href="{{ '/getting-started/' | relative_url }}">Guide de démarrage</a></li>
+              <li><a href="{{ '/faq/' | relative_url }}">FAQ</a></li>
+              <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
+              {% if site.feed %}
+                <li><a href="{{ '/feed.xml' | relative_url }}">RSS Feed</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- Footer bottom -->
+    <div class="footer-bottom">
+      <div class="row align-items-center">
+        
+        <div class="col-md-6">
+          <div class="footer-copyright">
+            <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title | default: "Research Benchmark Hub" }}. 
+            {% if site.license %}
+              Sous licence {{ site.license }}.
+            {% else %}
+              Tous droits réservés.
+            {% endif %}
+            </p>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="footer-meta">
+            <p class="text-md-right">
+              Construit avec <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>
+              {% if site.github.repository_url %}
+                • <a href="{{ site.github.repository_url }}" target="_blank" rel="noopener">Code source</a>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+</footer>
+
+<style>
+/* Footer-specific styles */
+.site-footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  padding: 3rem 0 2rem 0;
+}
+
+.footer-section {
+  margin-bottom: 2rem;
+}
+
+.footer-title {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-subtitle {
+  color: #fff;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-description {
+  color: #bdc3c7;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: #bdc3c7;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #34495e;
+  color: #ecf0f1;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 1.125rem;
+}
+
+.social-link:hover {
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  border-top: 1px solid #34495e;
+  padding: 1.5rem 0;
+}
+
+.footer-copyright,
+.footer-meta {
+  margin: 0;
+}
+
+.footer-copyright p,
+.footer-meta p {
+  margin: 0;
+  color: #95a5a6;
+  font-size: 0.875rem;
+}
+
+.footer-meta a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.footer-meta a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    padding: 2rem 0 1rem 0;
+  }
+  
+  .footer-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-meta {
+    text-align: center !important;
+    margin-top: 1rem;
+  }
+}
+</style>

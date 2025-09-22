@@ -1,0 +1,561 @@
+<!-- Search Component -->
+<div class="search-wrapper" id="search-wrapper">
+  
+  <!-- Search Input -->
+  <div class="search-container">
+    <input 
+      type="search" 
+      id="search-input"
+      class="search-input" 
+      placeholder="{{ include.placeholder | default: 'Rechercher un benchmark...' }}"
+      aria-label="Rechercher dans les benchmarks"
+      autocomplete="off"
+      role="searchbox"
+      aria-describedby="search-help"
+    >
+    <button type="button" class="search-button" id="search-button" aria-label="Lancer la recherche">
+      <i class="fas fa-search"></i>
+    </button>
+    <button type="button" class="search-clear" id="search-clear" aria-label="Effacer la recherche" style="display: none;">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <!-- Search Help Text -->
+  <div class="search-help" id="search-help">
+    <small class="text-muted">
+      Recherchez par nom, description, catégorie ou tags
+    </small>
+  </div>
+  
+  <!-- Search Results -->
+  <div class="search-results" id="search-results" style="display: none;">
+    <div class="search-results-header">
+      <h3 class="search-results-title">Résultats de recherche</h3>
+      <span class="search-results-count" id="search-results-count"></span>
+    </div>
+    
+    <!-- Search Filters -->
+    <div class="search-filters" id="search-filters">
+      <div class="filters-row">
+        <div class="filter-group">
+          <label for="search-category-filter" class="filter-label">Catégorie:</label>
+          <select id="search-category-filter" class="filter-select">
+            <option value="">Toutes les catégories</option>
+            <option value="cloud-computing">Cloud Computing</option>
+            <option value="green-computing">Green Computing</option>
+            <option value="distributed-systems">Systèmes Distribués</option>
+            <option value="iot">IoT</option>
+            <option value="energy">Énergie</option>
+            <option value="parallel-computing">Calcul Parallèle</option>
+            <option value="hpc">HPC</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="search-difficulty-filter" class="filter-label">Difficulté:</label>
+          <select id="search-difficulty-filter" class="filter-select">
+            <option value="">Toutes les difficultés</option>
+            <option value="beginner">Débutant</option>
+            <option value="intermediate">Intermédiaire</option>
+            <option value="advanced">Avancé</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="search-sort-filter" class="filter-label">Trier par:</label>
+          <select id="search-sort-filter" class="filter-select">
+            <option value="relevance">Pertinence</option>
+            <option value="title">Titre A-Z</option>
+            <option value="date">Date de mise à jour</option>
+            <option value="difficulty">Difficulté</option>
+          </select>
+        </div>
+        
+        <button type="button" class="filter-clear" id="search-filter-clear" title="Effacer les filtres">
+          <i class="fas fa-times"></i>
+          Effacer
+        </button>
+      </div>
+    </div>
+    
+    <div class="search-results-list" id="search-results-list">
+      <!-- Results will be populated by JavaScript -->
+    </div>
+    
+    <div class="search-no-results" id="search-no-results" style="display: none;">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h4>Aucun résultat trouvé</h4>
+      <p>Essayez avec d'autres mots-clés, ajustez les filtres ou parcourez les <a href="{{ '/categories/' | relative_url }}">catégories</a>.</p>
+      <div class="search-suggestions-inline">
+        <h5>Suggestions:</h5>
+        <div class="suggestion-tags" id="search-suggestion-tags">
+          <!-- Popular tags will be populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Search Suggestions -->
+  <div class="search-suggestions" id="search-suggestions" style="display: none;">
+    <div class="suggestions-header">
+      <h4>Suggestions populaires</h4>
+    </div>
+    <div class="suggestions-list" id="suggestions-list">
+      <!-- Popular searches will be populated here -->
+    </div>
+  </div>
+  
+</div>
+
+<style>
+/* Search Component Styles */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 3.5rem 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #dee2e6;
+  border-radius: 25px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.search-input:not(:placeholder-shown) + .search-button + .search-clear {
+  display: flex;
+}
+
+.search-button,
+.search-clear {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 1.125rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.search-clear {
+  right: 3rem;
+}
+
+.search-button:hover,
+.search-clear:hover {
+  color: #3498db;
+  background-color: #f8f9fa;
+}
+
+.search-help {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+.search-results-header {
+  padding: 1rem 1.5rem 0.5rem;
+  border-bottom: 1px solid #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-results-title {
+  font-size: 1.125rem;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.search-results-count {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.search-results-list {
+  padding: 0.5rem 0;
+}
+
+.search-result-item {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+.search-result-item:hover,
+.search-result-item.active {
+  background-color: #f8f9fa;
+  color: inherit;
+  text-decoration: none;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-title {
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: #2c3e50;
+}
+
+.search-result-description {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.search-result-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #adb5bd;
+}
+
+.search-result-category {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.search-no-results {
+  padding: 2rem;
+  text-align: center;
+}
+
+.no-results-icon {
+  font-size: 3rem;
+  color: #dee2e6;
+  margin-bottom: 1rem;
+}
+
+.search-no-results h4 {
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.search-no-results p {
+  color: #adb5bd;
+  margin: 0;
+}
+
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 0.5rem;
+}
+
+.suggestions-header {
+  padding: 1rem 1.5rem 0.5rem;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.suggestions-header h4 {
+  font-size: 1rem;
+  margin: 0;
+  color: #6c757d;
+}
+
+.suggestions-list {
+  padding: 0.5rem 0;
+}
+
+.suggestion-item {
+  display: block;
+  padding: 0.5rem 1.5rem;
+  color: #495057;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.suggestion-item:hover,
+.suggestion-item.active {
+  background-color: #f8f9fa;
+  color: #495057;
+  text-decoration: none;
+}
+
+.suggestion-recent {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-style: italic;
+  margin-left: 0.5rem;
+}
+
+/* Highlight search terms */
+.search-highlight {
+  background-color: #fff3cd;
+  padding: 0.125rem 0.25rem;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+/* Search Filters */
+.search-filters {
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.filter-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.25rem;
+}
+
+.filter-select {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #495057;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.filter-select:focus {
+  border-color: #3498db;
+  outline: 0;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
+}
+
+.filter-clear {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: #6c757d;
+  background-color: transparent;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  height: fit-content;
+}
+
+.filter-clear:hover {
+  color: #495057;
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.filter-clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Search suggestions inline */
+.search-suggestions-inline {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.search-suggestions-inline h5 {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin: 0 0 0.75rem 0;
+}
+
+.suggestion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.suggestion-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  color: #495057;
+  background-color: #e9ecef;
+  border: 1px solid #ced4da;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.suggestion-tag:hover {
+  color: #3498db;
+  background-color: #fff;
+  border-color: #3498db;
+  text-decoration: none;
+}
+
+/* Search error styles */
+.search-error {
+  padding: 2rem;
+  text-align: center;
+  color: #dc3545;
+}
+
+.search-error i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-group {
+    min-width: auto;
+  }
+  
+  .filter-clear {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-results {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+    margin-top: 0;
+    max-height: none;
+  }
+  
+  .search-results-header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+  }
+  
+  .search-filters {
+    position: sticky;
+    top: 60px;
+    z-index: 1;
+  }
+}
+</style>
+
+<script>
+// Basic search interface functionality
+// Main search logic is in search.js
+document.addEventListener('DOMContentLoaded', function() {
+  initializeSearchInterface();
+});
+
+function initializeSearchInterface() {
+  const searchInput = document.getElementById('search-input');
+  const searchButton = document.getElementById('search-button');
+  const searchClear = document.getElementById('search-clear');
+  const searchResults = document.getElementById('search-results');
+  const searchSuggestions = document.getElementById('search-suggestions');
+  
+  if (!searchInput) return;
+  
+  // Show/hide clear button
+  searchInput.addEventListener('input', function() {
+    if (this.value.length > 0) {
+      searchClear.style.display = 'flex';
+    } else {
+      searchClear.style.display = 'none';
+    }
+  });
+  
+  // Clear search
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    searchClear.style.display = 'none';
+    if (window.getSearchEngine && window.getSearchEngine()) {
+      window.getSearchEngine().clear();
+    }
+    searchInput.focus();
+  });
+  
+  // Search button click
+  searchButton.addEventListener('click', function() {
+    const query = searchInput.value.trim();
+    if (query && window.getSearchEngine && window.getSearchEngine()) {
+      window.getSearchEngine().search(query);
+    }
+  });
+  
+  // Hide results when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-wrapper')) {
+      if (searchResults) searchResults.style.display = 'none';
+      if (searchSuggestions) searchSuggestions.style.display = 'none';
+    }
+  });
+}
+</script>

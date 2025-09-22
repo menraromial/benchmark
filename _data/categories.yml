@@ -1,0 +1,166 @@
+# Research Benchmark Categories
+# Each category includes metadata for display, organization, and specialized features
+
+cloud-computing:
+  name: "Cloud Computing"
+  description: "Benchmarks for evaluating cloud infrastructure, services, and distributed computing performance"
+  icon: "cloud"
+  color: "#4A90E2"
+  subcategories:
+    - "Infrastructure Performance"
+    - "Service Benchmarks"
+    - "Multi-tenant Performance"
+    - "Auto-scaling"
+  popular_benchmarks:
+    - "SPEC Cloud"
+    - "CloudSuite"
+    - "YCSB"
+
+green-computing:
+  name: "Green Computing"
+  description: "Energy-efficient computing benchmarks and sustainability measurement tools"
+  icon: "leaf"
+  color: "#7ED321"
+  subcategories:
+    - "Energy Efficiency"
+    - "Carbon Footprint"
+    - "Power Management"
+    - "Sustainable Computing"
+  popular_benchmarks:
+    - "SPECpower"
+    - "Green500"
+    - "PowerAPI"
+
+distributed-systems:
+  name: "Distributed Systems"
+  description: "Benchmarks for distributed computing, consensus algorithms, and system reliability"
+  icon: "network"
+  color: "#F5A623"
+  subcategories:
+    - "Consensus Algorithms"
+    - "Fault Tolerance"
+    - "Scalability"
+    - "Consistency Models"
+  popular_benchmarks:
+    - "YCSB"
+    - "TPC-C"
+    - "Jepsen"
+
+iot:
+  name: "Internet of Things (IoT)"
+  description: "Benchmarks for IoT devices, edge computing, and sensor network performance"
+  icon: "wifi"
+  color: "#9013FE"
+  subcategories:
+    - "Edge Computing"
+    - "Sensor Networks"
+    - "Device Performance"
+    - "Connectivity"
+  popular_benchmarks:
+    - "IoTBench"
+    - "EdgeBench"
+    - "FogBench"
+
+energy:
+  name: "Energy Systems"
+  description: "Benchmarks for energy measurement, profiling, and optimization tools"
+  icon: "battery"
+  color: "#FF6B35"
+  subcategories:
+    - "Energy Profiling"
+    - "Power Measurement"
+    - "Energy Optimization"
+    - "Hardware Monitoring"
+  popular_benchmarks:
+    - "PowerAPI"
+    - "RAPL"
+    - "PowerTOP"
+
+parallel-computing:
+  name: "Parallel Computing"
+  description: "Benchmarks for parallel algorithms, multi-threading, and parallel programming models"
+  icon: "parallel"
+  color: "#BD10E0"
+  subcategories:
+    - "OpenMP Benchmarks"
+    - "MPI Benchmarks"
+    - "CUDA/GPU Computing"
+    - "Thread Scalability"
+  popular_benchmarks:
+    - "NAS Parallel Benchmarks"
+    - "PARSEC"
+    - "SPLASH-2"
+  # Specialized metadata for parallel computing
+  parallel_models:
+    - name: "OpenMP"
+      description: "Shared memory parallel programming"
+      icon: "openmp"
+    - name: "MPI"
+      description: "Message Passing Interface for distributed memory"
+      icon: "mpi"
+    - name: "CUDA"
+      description: "NVIDIA GPU computing platform"
+      icon: "cuda"
+    - name: "OpenCL"
+      description: "Open Computing Language for heterogeneous computing"
+      icon: "opencl"
+  metrics:
+    - "Speedup"
+    - "Efficiency"
+    - "Scalability"
+    - "Load Balancing"
+    - "Communication Overhead"
+
+hpc:
+  name: "High Performance Computing (HPC)"
+  description: "Benchmarks for supercomputing, scientific computing, and large-scale parallel systems"
+  icon: "server"
+  color: "#D0021B"
+  subcategories:
+    - "Scientific Computing"
+    - "Simulation Benchmarks"
+    - "AI/ML Workloads"
+    - "Hybrid Computing"
+  popular_benchmarks:
+    - "LINPACK"
+    - "HPCG"
+    - "SPECfp"
+  # Specialized metadata for HPC
+  architectures:
+    - name: "CPU-only"
+      description: "Traditional CPU-based computing"
+      icon: "cpu"
+    - name: "GPU-accelerated"
+      description: "Hybrid CPU+GPU computing"
+      icon: "gpu"
+    - name: "Many-core"
+      description: "Intel Xeon Phi and similar architectures"
+      icon: "manycore"
+    - name: "Quantum"
+      description: "Quantum computing benchmarks"
+      icon: "quantum"
+  rankings:
+    - name: "Top500"
+      description: "World's fastest supercomputers"
+      url: "https://www.top500.org"
+    - name: "Green500"
+      description: "Most energy-efficient supercomputers"
+      url: "https://www.green500.org"
+    - name: "HPCG"
+      description: "High Performance Conjugate Gradients"
+      url: "https://www.hpcg-benchmark.org"
+  metrics:
+    - "FLOPS (Floating Point Operations per Second)"
+    - "Memory Bandwidth"
+    - "Network Latency"
+    - "Energy Efficiency"
+    - "Scalability Factor"
+    - "Job Throughput"
+  resource_requirements:
+    min_nodes: 1
+    typical_nodes: "64-1024"
+    memory_per_node: "32GB-1TB"
+    interconnect_types:
+      - "InfiniBand"
+      - "Omni-Path"
+      - "Ethernet"

@@ -1,0 +1,123 @@
+---
+layout: default
+---
+
+<div class="page">
+
+  <header class="page-header">
+    <div class="container">
+      <h1 class="page-title">{{ page.title | escape }}</h1>
+
+      {% if page.description %}
+      <p class="page-description">{{ page.description }}</p>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="page-content">
+    <div class="container">
+      {{ content }}
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .page-header {
+    background-color: #f8f9fa;
+    padding: 3rem 0 2rem 0;
+    border-bottom: 1px solid #dee2e6;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  .page-description {
+    font-size: 1.25rem;
+    color: #6c757d;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      font-size: 1.125rem;
+    }
+  }
+
+  .page-content {
+    padding: 3rem 0;
+
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    ul,
+    ol {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+
+      li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+      }
+    }
+
+    blockquote {
+      border-left: 4px solid #3498db;
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #6c757d;
+    }
+
+    code {
+      background-color: #f8f9fa;
+      padding: 0.125rem 0.25rem;
+      border-radius: 3px;
+      font-size: 0.875em;
+    }
+
+    pre {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1rem 0;
+
+      code {
+        background: none;
+        padding: 0;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 2rem 0 1.5rem 0;
+    }
+
+    .page-content {
+      padding: 2rem 0;
+    }
+  }
+</style>

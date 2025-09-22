@@ -1,0 +1,34 @@
+---
+layout: null
+---
+{
+  "benchmarks": [
+    {%- for benchmark in site.benchmarks -%}
+      {
+        "id": "{{ benchmark.slug }}",
+        "title": {{ benchmark.title | jsonify }},
+        "category": {{ benchmark.category | jsonify }},
+        "subcategory": {{ benchmark.subcategory | default: "" | jsonify }},
+        "description": {{ benchmark.description | jsonify }},
+        "tags": {{ benchmark.tags | jsonify }},
+        "difficulty": {{ benchmark.difficulty | jsonify }},
+        "platforms": {{ benchmark.platforms | jsonify }},
+        "languages": {{ benchmark.languages | jsonify }},
+        "maintainer": {{ benchmark.maintainer | jsonify }},
+        "url": "{{ benchmark.url | relative_url }}",
+        "content": {{ benchmark.content | strip_html | truncatewords: 50 | jsonify }},
+        "last_updated": {{ benchmark.last_updated | jsonify }}
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ],
+  "categories": [
+    {%- for category_data in site.data.categories -%}
+      {
+        "id": "{{ category_data[0] }}",
+        "name": {{ category_data[1].name | jsonify }},
+        "description": {{ category_data[1].description | jsonify }},
+        "url": "/categories/{{ category_data[0] }}/"
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}

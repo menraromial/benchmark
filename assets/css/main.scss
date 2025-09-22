@@ -1,0 +1,93 @@
+---
+# Main stylesheet for Research Benchmark Hub
+---
+
+// Import all SCSS partials
+@import "base";
+@import "layout";
+@import "components";
+
+// Site-specific styles
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 4rem 0;
+  text-align: center;
+  
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+  }
+  
+  .hero-description {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    
+    @media (max-width: 768px) {
+      font-size: 1.125rem;
+    }
+  }
+  
+  .hero-search {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// Categories grid
+.categories-grid {
+  @extend .grid-3;
+  margin-top: 2rem;
+}
+
+.category-card {
+  @extend .card;
+  text-align: center;
+  
+  .category-link {
+    display: block;
+    padding: 2rem 1.5rem;
+    color: inherit;
+    text-decoration: none;
+    
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+  
+  .category-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #3498db;
+  }
+  
+  .category-name {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  
+  .category-description {
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+  
+  .category-stats {
+    font-size: 0.875rem;
+    color: #3498db;
+    font-weight: 600;
+  }
+}
+
+// Benchmarks grid
+.benchmarks-grid {
+  @extend .grid-3;
+  margin-top: 2rem;
+}

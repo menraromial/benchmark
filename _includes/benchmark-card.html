@@ -1,0 +1,304 @@
+<!-- Benchmark Card Component -->
+{% assign benchmark = include.benchmark %}
+
+<div class="benchmark-card card">
+  <div class="card-body">
+    
+    <!-- Card header with category and difficulty -->
+    <div class="card-meta">
+      <div class="card-category">
+        {% assign category_data = site.data.categories[benchmark.category] %}
+        <a href="{{ '/categories/' | append: benchmark.category | relative_url }}" class="category-badge">
+          {% if category_data.icon %}
+            <i class="{{ category_data.icon }}"></i>
+          {% endif %}
+          {{ category_data.name | default: benchmark.category | capitalize }}
+        </a>
+      </div>
+      
+      {% if benchmark.difficulty %}
+        <span class="difficulty-badge difficulty-{{ benchmark.difficulty }}">
+          {% case benchmark.difficulty %}
+            {% when 'beginner' %}Débutant
+            {% when 'intermediate' %}Intermédiaire  
+            {% when 'advanced' %}Avancé
+            {% else %}{{ benchmark.difficulty | capitalize }}
+          {% endcase %}
+        </span>
+      {% endif %}
+    </div>
+    
+    <!-- Card title and description -->
+    <h3 class="card-title">
+      <a href="{{ benchmark.url | relative_url }}" class="card-title-link">
+        {{ benchmark.title }}
+      </a>
+    </h3>
+    
+    <p class="card-text">
+      {{ benchmark.description | truncate: 120 }}
+    </p>
+    
+    <!-- Tags -->
+    {% if benchmark.tags and benchmark.tags.size > 0 %}
+      <div class="card-tags">
+        {% for tag in benchmark.tags limit: 3 %}
+          <span class="tag">{{ tag }}</span>
+        {% endfor %}
+        {% if benchmark.tags.size > 3 %}
+          <span class="tag-more">+{{ benchmark.tags.size | minus: 3 }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <!-- Card metadata -->
+    <div class="card-metadata">
+      <div class="metadata-row">
+        
+        <!-- Platforms -->
+        {% if benchmark.platforms and benchmark.platforms.size > 0 %}
+          <div class="metadata-item">
+            <i class="fas fa-desktop" aria-hidden="true"></i>
+            <span class="metadata-text">
+              {% if benchmark.platforms.size == 1 %}
+                {{ benchmark.platforms[0] }}
+              {% else %}
+                {{ benchmark.platforms.size }} plateformes
+              {% endif %}
+            </span>
+          </div>
+        {% endif %}
+        
+        <!-- Languages -->
+        {% if benchmark.languages and benchmark.languages.size > 0 %}
+          <div class="metadata-item">
+            <i class="fas fa-code" aria-hidden="true"></i>
+            <span class="metadata-text">
+              {% if benchmark.languages.size == 1 %}
+                {{ benchmark.languages[0] }}
+              {% else %}
+                {{ benchmark.languages.size }} langages
+              {% endif %}
+            </span>
+          </div>
+        {% endif %}
+        
+        <!-- Last updated -->
+        {% if benchmark.last_updated %}
+          <div class="metadata-item">
+            <i class="fas fa-clock" aria-hidden="true"></i>
+            <span class="metadata-text">
+              {{ benchmark.last_updated | date: "%m/%Y" }}
+            </span>
+          </div>
+        {% endif %}
+        
+      </div>
+      
+      <!-- Special indicators for HPC/Parallel -->
+      {% if benchmark.parallel_models or benchmark.gpu_support or benchmark.min_nodes %}
+        <div class="metadata-row special-indicators">
+          
+          {% if benchmark.parallel_models and benchmark.parallel_models.size > 0 %}
+            <div class="metadata-item">
+              <i class="fas fa-project-diagram" aria-hidden="true"></i>
+              <span class="metadata-text">
+                {% if benchmark.parallel_models.size == 1 %}
+                  {{ benchmark.parallel_models[0] }}
+                {% else %}
+                  Parallèle ({{ benchmark.parallel_models.size }})
+                {% endif %}
+              </span>
+            </div>
+          {% endif %}
+          
+          {% if benchmark.gpu_support %}
+            <div class="metadata-item">
+              <i class="fas fa-microchip" aria-hidden="true"></i>
+              <span class="metadata-text">GPU</span>
+            </div>
+          {% endif %}
+          
+          {% if benchmark.min_nodes and benchmark.min_nodes > 1 %}
+            <div class="metadata-item">
+              <i class="fas fa-server" aria-hidden="true"></i>
+              <span class="metadata-text">
+                {% if benchmark.max_nodes %}
+                  {{ benchmark.min_nodes }}-{{ benchmark.max_nodes }} nœuds
+                {% else %}
+                  {{ benchmark.min_nodes }}+ nœuds
+                {% endif %}
+              </span>
+            </div>
+          {% endif %}
+          
+        </div>
+      {% endif %}
+    </div>
+    
+  </div>
+  
+  <!-- Card footer with actions -->
+  <div class="card-footer">
+    <div class="card-actions">
+      <a href="{{ benchmark.url | relative_url }}" class="btn btn-primary btn-sm">
+        Voir le guide
+      </a>
+      
+      {% if benchmark.official_website %}
+        <a href="{{ benchmark.official_website }}" class="btn btn-outline-primary btn-sm" target="_blank" rel="noopener">
+          <i class="fas fa-external-link-alt"></i>
+          Site officiel
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  
+</div>
+
+<style>
+/* Benchmark Card specific styles */
+.benchmark-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.benchmark-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.benchmark-card .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.category-badge:hover {
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+}
+
+.card-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-title-link:hover {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.card-tags {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tag-more {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  background-color: #6c757d;
+  color: #fff;
+  border-radius: 20px;
+  margin: 0.125rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.card-metadata {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f8f9fa;
+}
+
+.metadata-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.metadata-row:last-child {
+  margin-bottom: 0;
+}
+
+.metadata-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.metadata-item i {
+  width: 1rem;
+  text-align: center;
+  color: #adb5bd;
+}
+
+.special-indicators .metadata-item {
+  background-color: #f8f9fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
+.special-indicators .metadata-item i {
+  color: #3498db;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.card-actions .btn {
+  flex: 1;
+  min-width: fit-content;
+}
+
+@media (max-width: 576px) {
+  .card-actions {
+    flex-direction: column;
+  }
+  
+  .card-actions .btn {
+    width: 100%;
+  }
+  
+  .metadata-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+</style>

@@ -1,0 +1,128 @@
+---
+layout: default
+---
+
+<div class="category-page">
+  
+  <!-- Category Header -->
+  <section class="category-header" style="--category-color: {{ category_data.color }}; --category-color-rgb: {{ category_data.color | remove: '#' | split: '' | join: '' }}">
+    <div class="container">
+      <div class="category-info">
+        {% assign category_data = site.data.categories[page.category] %}
+        
+        <div class="category-icon">
+          <i class="fas fa-{{ category_data.icon }}"></i>
+        </div>
+        
+        <div class="category-details">
+          <h1 class="category-title">{{ category_data.name | default: page.title }}</h1>
+          <p class="category-description">{{ category_data.description | default: page.description }}</p>
+          
+          {% assign category_benchmarks = site.benchmarks | where: "category", page.category %}
+          <div class="category-stats">
+            <span class="benchmark-count">{{ category_benchmarks.size }} benchmark{% if category_benchmarks.size > 1 %}s{% endif %} disponible{% if category_benchmarks.size > 1 %}s{% endif %}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Filters and Search -->
+  <section class="category-controls">
+    <div class="container">
+      <div class="controls-wrapper">
+        
+        <!-- Search -->
+        <div class="category-search">
+          {% include search.html placeholder="Rechercher dans cette catégorie..." %}
+        </div>
+        
+        <!-- Filters -->
+        <div class="category-filters">
+          <div class="filter-group">
+            <label for="difficulty-filter">Difficulté:</label>
+            <select id="difficulty-filter" class="filter-select">
+              <option value="">Toutes</option>
+              <option value="beginner">Débutant</option>
+              <option value="intermediate">Intermédiaire</option>
+              <option value="advanced">Avancé</option>
+            </select>
+          </div>
+          
+          {% if category_data.subcategories %}
+          <div class="filter-group">
+            <label for="subcategory-filter">Sous-catégorie:</label>
+            <select id="subcategory-filter" class="filter-select">
+              <option value="">Toutes</option>
+              {% for subcategory in category_data.subcategories %}
+                <option value="{{ subcategory }}">{{ subcategory | capitalize }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% endif %}
+          
+          <div class="filter-group">
+            <label for="sort-select">Trier par:</label>
+            <select id="sort-select" class="filter-select">
+              <option value="title">Nom (A-Z)</option>
+              <option value="date">Date de mise à jour</option>
+              <option value="difficulty">Difficulté</option>
+            </select>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  
+  <!-- Benchmarks Grid -->
+  <section class="category-content">
+    <div class="container">
+      
+      {% if category_benchmarks.size > 0 %}
+        <div class="benchmarks-grid" id="benchmarks-grid">
+          {% for benchmark in category_benchmarks %}
+            {% include benchmark-card.html benchmark=benchmark %}
+          {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if category_benchmarks.size > 12 %}
+        <div class="pagination-wrapper">
+          <div class="pagination">
+            <!-- Pagination will be handled by JavaScript -->
+          </div>
+        </div>
+        {% endif %}
+        
+      {% else %}
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>Aucun benchmark trouvé</h3>
+          <p>Il n'y a pas encore de benchmarks dans cette catégorie.</p>
+          <a href="{{ '/contribute/' | relative_url }}" class="btn btn-primary">Contribuer un benchmark</a>
+        </div>
+      {% endif %}
+      
+    </div>
+  </section>
+  
+  <!-- Additional Content -->
+  <div class="category-additional-content" style="--category-color: {{ category_data.color }}">
+    <div class="container">
+      {{ content }}
+    </div>
+  </div>
+  
+</div>
+
+<!-- Category-specific JavaScript -->
+<script src="{{ '/assets/js/category-filters.js' | relative_url }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize category filtering and sorting
+  initializeCategoryFilters();
+});
+</script>

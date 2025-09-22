@@ -1,0 +1,77 @@
+name: Validate Benchmarks
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '_benchmarks/**'
+      - '_config.yml'
+      - 'scripts/validate_benchmarks.rb'
+      - '_plugins/benchmark_validator.rb'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '_benchmarks/**'
+      - '_config.yml'
+      - 'scripts/validate_benchmarks.rb'
+      - '_plugins/benchmark_validator.rb'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        bundler-cache: true
+        
+    - name: Validate benchmark content
+      run: |
+        echo "🔍 Running benchmark validation..."
+        ruby scripts/validate_benchmarks.rb --verbose
+        
+    - name: Check for validation errors
+      run: |
+        if ruby scripts/validate_benchmarks.rb; then
+          echo "✅ All benchmarks are valid!"
+        else
+          echo "❌ Benchmark validation failed!"
+          exit 1
+        fi
+        
+  build-test:
+    runs-on: ubuntu-latest
+    needs: validate
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        bundler-cache: true
+        
+    - name: Build Jekyll site
+      run: |
+        echo "🏗️ Building Jekyll site with validation..."
+        JEKYLL_ENV=production bundle exec jekyll build
+        
+    - name: Check build artifacts
+      run: |
+        if [ -d "_site" ] && [ "$(ls -A _site)" ]; then
+          echo "✅ Site built successfully!"
+          echo "📊 Generated files:"
+          find _site -name "*.html" | wc -l | xargs echo "  HTML files:"
+          find _site -name "*.css" | wc -l | xargs echo "  CSS files:"
+          find _site -name "*.js" | wc -l | xargs echo "  JS files:"
+        else
+          echo "❌ Build failed - no output generated!"
+          exit 1
+        fi

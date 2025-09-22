@@ -1,0 +1,76 @@
+---
+layout: default
+---
+
+<div class="home-page">
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">{{ site.title | default: "Research Benchmark Hub" }}</h1>
+        <p class="hero-description">{{ site.description | default: "Hub centralisé de benchmarks pour la recherche en informatique" }}</p>
+        
+        <!-- Search Bar -->
+        <div class="hero-search">
+          {% include search.html %}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Categories Grid -->
+  <section class="categories-section">
+    <div class="container">
+      <h2 class="section-title">Domaines de Recherche</h2>
+      
+      <div class="categories-grid">
+        {% for category in site.data.categories %}
+          <div class="category-card">
+            <a href="{{ '/categories/' | append: category.id | relative_url }}" class="category-link">
+              <div class="category-icon">
+                <i class="{{ category.icon }}"></i>
+              </div>
+              <h3 class="category-name">{{ category.name }}</h3>
+              <p class="category-description">{{ category.description }}</p>
+              
+              <!-- Benchmark Count -->
+              {% assign category_benchmarks = site.benchmarks | where: "category", category.id %}
+              <div class="category-stats">
+                <span class="benchmark-count">{{ category_benchmarks.size }} benchmark{% if category_benchmarks.size > 1 %}s{% endif %}</span>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  
+  <!-- Featured Benchmarks -->
+  <section class="featured-section">
+    <div class="container">
+      <h2 class="section-title">Benchmarks Populaires</h2>
+      
+      <div class="benchmarks-grid">
+        {% assign featured_benchmarks = site.benchmarks | where: "featured", true | limit: 6 %}
+        {% if featured_benchmarks.size == 0 %}
+          {% assign featured_benchmarks = site.benchmarks | limit: 6 %}
+        {% endif %}
+        
+        {% for benchmark in featured_benchmarks %}
+          {% include benchmark-card.html benchmark=benchmark %}
+        {% endfor %}
+      </div>
+      
+      <div class="section-footer">
+        <a href="{{ '/benchmarks/' | relative_url }}" class="btn btn-primary">Voir tous les benchmarks</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Additional Content -->
+  <div class="home-content">
+    {{ content }}
+  </div>
+  
+</div>

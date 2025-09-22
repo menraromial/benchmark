@@ -1,0 +1,129 @@
+# Site Navigation Structure
+# Defines the main navigation menu and footer links
+
+# Main navigation menu
+main:
+  - name: "Home"
+    url: "/"
+    icon: "home"
+    
+  - name: "Categories"
+    url: "#"
+    icon: "grid"
+    dropdown: true
+    children:
+      - name: "Cloud Computing"
+        url: "/categories/cloud-computing/"
+        description: "Cloud infrastructure and services benchmarks"
+        
+      - name: "Green Computing"
+        url: "/categories/green-computing/"
+        description: "Energy efficiency and sustainability tools"
+        
+      - name: "Distributed Systems"
+        url: "/categories/distributed-systems/"
+        description: "Distributed computing and consensus benchmarks"
+        
+      - name: "Internet of Things"
+        url: "/categories/iot/"
+        description: "IoT and edge computing benchmarks"
+        
+      - name: "Energy Systems"
+        url: "/categories/energy/"
+        description: "Energy measurement and profiling tools"
+        
+      - name: "Parallel Computing"
+        url: "/categories/parallel-computing/"
+        description: "Parallel algorithms and programming models"
+        
+      - name: "High Performance Computing"
+        url: "/categories/hpc/"
+        description: "Supercomputing and scientific benchmarks"
+        
+  - name: "Search"
+    url: "/search/"
+    icon: "search"
+    
+  - name: "About"
+    url: "/about/"
+    icon: "info"
+    
+  - name: "Contribute"
+    url: "/contribute/"
+    icon: "plus"
+
+# Footer navigation
+footer:
+  - section: "Categories"
+    links:
+      - name: "Cloud Computing"
+        url: "/categories/cloud-computing/"
+      - name: "Green Computing"
+        url: "/categories/green-computing/"
+      - name: "Distributed Systems"
+        url: "/categories/distributed-systems/"
+      - name: "IoT"
+        url: "/categories/iot/"
+        
+  - section: "HPC & Parallel"
+    links:
+      - name: "Parallel Computing"
+        url: "/categories/parallel-computing/"
+      - name: "High Performance Computing"
+        url: "/categories/hpc/"
+      - name: "Energy Systems"
+        url: "/categories/energy/"
+        
+  - section: "Resources"
+    links:
+      - name: "About"
+        url: "/about/"
+      - name: "Contribute"
+        url: "/contribute/"
+      - name: "GitHub"
+        url: "https://github.com/research-benchmark-hub"
+        external: true
+      - name: "Documentation"
+        url: "/docs/"
+
+# Breadcrumb navigation patterns
+breadcrumbs:
+  category_page:
+    - name: "Home"
+      url: "/"
+    - name: "Categories"
+      url: "/categories/"
+    - name: "{{ page.category | capitalize }}"
+      url: "/categories/{{ page.category }}/"
+      
+  benchmark_page:
+    - name: "Home"
+      url: "/"
+    - name: "{{ page.category | capitalize }}"
+      url: "/categories/{{ page.category }}/"
+    - name: "{{ page.title }}"
+      url: "{{ page.url }}"
+
+# Quick access links for specialized categories
+quick_access:
+  parallel_computing:
+    - name: "OpenMP Benchmarks"
+      url: "/categories/parallel-computing/?filter=openmp"
+      icon: "openmp"
+    - name: "MPI Benchmarks"
+      url: "/categories/parallel-computing/?filter=mpi"
+      icon: "mpi"
+    - name: "CUDA Benchmarks"
+      url: "/categories/parallel-computing/?filter=cuda"
+      icon: "cuda"
+      
+  hpc:
+    - name: "Top500 Benchmarks"
+      url: "/categories/hpc/?filter=top500"
+      icon: "trophy"
+    - name: "Scientific Computing"
+      url: "/categories/hpc/?filter=scientific"
+      icon: "calculator"
+    - name: "GPU-Accelerated"
+      url: "/categories/hpc/?filter=gpu"
+      icon: "gpu"

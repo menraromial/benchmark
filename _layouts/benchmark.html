@@ -1,0 +1,244 @@
+---
+layout: default
+---
+
+<div class="benchmark-page">
+  
+  <!-- Benchmark Header -->
+  <section class="benchmark-header">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item">
+            <a href="{{ '/' | relative_url }}">Accueil</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{{ '/categories/' | append: page.category | relative_url }}">
+              {% assign category_data = site.data.categories | where: "id", page.category | first %}
+              {{ category_data.name | default: page.category | capitalize }}
+            </a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {{ page.title }}
+          </li>
+        </ol>
+      </nav>
+      
+      <!-- Benchmark Info -->
+      <div class="benchmark-info">
+        <div class="benchmark-main-info">
+          <h1 class="benchmark-title">{{ page.title }}</h1>
+          <p class="benchmark-description">{{ page.description }}</p>
+          
+          <!-- Benchmark Metadata -->
+          <div class="benchmark-metadata">
+            <div class="metadata-grid">
+              
+              <div class="metadata-item">
+                <span class="metadata-label">Catégorie:</span>
+                <span class="metadata-value">
+                  <a href="{{ '/categories/' | append: page.category | relative_url }}" class="category-link">
+                    {{ category_data.name | default: page.category | capitalize }}
+                  </a>
+                </span>
+              </div>
+              
+              {% if page.subcategory %}
+              <div class="metadata-item">
+                <span class="metadata-label">Sous-catégorie:</span>
+                <span class="metadata-value">{{ page.subcategory | capitalize }}</span>
+              </div>
+              {% endif %}
+              
+              <div class="metadata-item">
+                <span class="metadata-label">Difficulté:</span>
+                <span class="metadata-value">
+                  <span class="difficulty-badge difficulty-{{ page.difficulty }}">
+                    {% case page.difficulty %}
+                      {% when 'beginner' %}Débutant
+                      {% when 'intermediate' %}Intermédiaire  
+                      {% when 'advanced' %}Avancé
+                      {% else %}{{ page.difficulty | capitalize }}
+                    {% endcase %}
+                  </span>
+                </span>
+              </div>
+              
+              {% if page.version %}
+              <div class="metadata-item">
+                <span class="metadata-label">Version:</span>
+                <span class="metadata-value">{{ page.version }}</span>
+              </div>
+              {% endif %}
+              
+              {% if page.last_updated %}
+              <div class="metadata-item">
+                <span class="metadata-label">Dernière mise à jour:</span>
+                <span class="metadata-value">{{ page.last_updated | date: "%d/%m/%Y" }}</span>
+              </div>
+              {% endif %}
+              
+              {% if page.license %}
+              <div class="metadata-item">
+                <span class="metadata-label">Licence:</span>
+                <span class="metadata-value">{{ page.license }}</span>
+              </div>
+              {% endif %}
+              
+            </div>
+          </div>
+          
+          <!-- Tags -->
+          {% if page.tags and page.tags.size > 0 %}
+          <div class="benchmark-tags">
+            {% for tag in page.tags %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="benchmark-actions">
+          {% if page.official_website %}
+          <a href="{{ page.official_website }}" class="btn btn-primary" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            Site Officiel
+          </a>
+          {% endif %}
+          
+          <button class="btn btn-secondary" onclick="window.print()">
+            <i class="fas fa-print"></i>
+            Imprimer
+          </button>
+          
+          <button class="btn btn-secondary" onclick="copyToClipboard(window.location.href)">
+            <i class="fas fa-share"></i>
+            Partager
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  
+
+  
+  <!-- Benchmark Content -->
+  <section class="benchmark-content">
+    <div class="container">
+      <div class="content-wrapper">
+        
+        <!-- Main Content -->
+        <article class="benchmark-article">
+          {{ content }}
+        </article>
+        
+        <!-- Sidebar -->
+        <aside class="benchmark-sidebar">
+          
+          <!-- Quick Info -->
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">Informations Rapides</h3>
+            <div class="quick-info">
+              
+              {% if page.platforms and page.platforms.size > 0 %}
+              <div class="info-item">
+                <strong>Plateformes:</strong>
+                <ul class="info-list">
+                  {% for platform in page.platforms %}
+                    <li>{{ platform }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endif %}
+              
+              {% if page.languages and page.languages.size > 0 %}
+              <div class="info-item">
+                <strong>Langages:</strong>
+                <ul class="info-list">
+                  {% for language in page.languages %}
+                    <li>{{ language }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endif %}
+              
+              {% if page.parallel_models and page.parallel_models.size > 0 %}
+              <div class="info-item">
+                <strong>Modèles Parallèles:</strong>
+                <ul class="info-list">
+                  {% for model in page.parallel_models %}
+                    <li>{{ model }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endif %}
+              
+              {% if page.min_nodes or page.max_nodes %}
+              <div class="info-item">
+                <strong>Nœuds:</strong>
+                {% if page.min_nodes and page.max_nodes %}
+                  {{ page.min_nodes }} - {{ page.max_nodes }}
+                {% elsif page.min_nodes %}
+                  Minimum: {{ page.min_nodes }}
+                {% elsif page.max_nodes %}
+                  Maximum: {{ page.max_nodes }}
+                {% endif %}
+              </div>
+              {% endif %}
+              
+              {% if page.memory_requirements %}
+              <div class="info-item">
+                <strong>Mémoire requise:</strong>
+                {{ page.memory_requirements }}
+              </div>
+              {% endif %}
+              
+              {% if page.maintainer %}
+              <div class="info-item">
+                <strong>Mainteneur:</strong>
+                {{ page.maintainer }}
+              </div>
+              {% endif %}
+              
+            </div>
+          </div>
+          
+          <!-- Related Benchmarks -->
+          <div class="sidebar-section">
+            <h3 class="sidebar-title">Benchmarks Similaires</h3>
+            {% assign related_benchmarks = site.benchmarks | where: "category", page.category | where_exp: "item", "item.url != page.url" | limit: 3 %}
+            
+            {% if related_benchmarks.size > 0 %}
+              <div class="related-benchmarks">
+                {% for benchmark in related_benchmarks %}
+                  <div class="related-item">
+                    <a href="{{ benchmark.url | relative_url }}" class="related-link">
+                      <h4 class="related-title">{{ benchmark.title }}</h4>
+                      <p class="related-description">{{ benchmark.description | truncate: 80 }}</p>
+                    </a>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="no-related">Aucun benchmark similaire trouvé.</p>
+            {% endif %}
+          </div>
+          
+        </aside>
+        
+      </div>
+    </div>
+  </section>
+  
+</div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Benchmark-specific JavaScript -->
+<script src="{{ '/assets/js/benchmark.js' | relative_url }}"></script>

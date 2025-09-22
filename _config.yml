@@ -1,0 +1,180 @@
+# Research Benchmark Hub Configuration
+
+# Site settings
+title: Research Benchmark Hub
+email: itsme@menraromial.com
+description: >-
+  Hub centralisé de benchmarks pour la recherche en informatique dans les domaines 
+  du cloud computing, green computing, systèmes distribués, IoT, énergie, 
+  calcul parallèle et HPC (High Performance Computing).
+baseurl: "/benchmark"
+url: "https://menraromial.github.io"
+author: Menra Romial
+lang: fr
+
+# Social links
+github_username: menraromial
+twitter_username: mwrdev_
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# Collections
+collections:
+  benchmarks:
+    output: true
+    permalink: /benchmarks/:name/
+    sort_by: title
+
+# YAML Front Matter Validation Schema
+benchmark_schema:
+  required_fields:
+    - title
+    - category
+    - description
+    - tags
+    - difficulty
+    - last_updated
+    - official_website
+    - license
+    - platforms
+    - languages
+    - maintainer
+    - citation
+
+  optional_fields:
+    - subcategory
+    - version
+    - parallel_models # For parallel computing benchmarks
+    - min_nodes # For HPC benchmarks
+    - max_nodes # For HPC benchmarks
+    - memory_requirements # For HPC benchmarks
+    - gpu_support # For GPU-accelerated benchmarks
+    - interconnect # For HPC/parallel benchmarks
+    - rankings_used # For HPC benchmarks (Top500, Green500, etc.)
+    - flops_category # For HPC benchmarks
+    - memory_pattern # For HPC benchmarks
+    - communication_pattern # For HPC benchmarks
+
+  field_types:
+    title: string
+    category: enum
+    subcategory: string
+    description: string
+    tags: array
+    difficulty: enum
+    last_updated: date
+    version: string
+    official_website: url
+    license: string
+    platforms: array
+    languages: array
+    maintainer: string
+    citation: string
+    parallel_models: array
+    min_nodes: integer
+    max_nodes: integer
+    memory_requirements: string
+    gpu_support: boolean
+    interconnect: array
+    rankings_used: array
+    flops_category: string
+    memory_pattern: string
+    communication_pattern: string
+
+  enums:
+    category:
+      - cloud-computing
+      - green-computing
+      - distributed-systems
+      - iot
+      - energy
+      - parallel-computing
+      - hpc
+    difficulty:
+      - beginner
+      - intermediate
+      - advanced
+
+# Pagination
+paginate: 12
+paginate_path: "/page:num/"
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "benchmarks"
+    values:
+      layout: "benchmark"
+      author: "Research Benchmark Hub"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Research Benchmark Hub"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Site navigation
+navigation:
+  - title: "Accueil"
+    url: "/"
+  - title: "Cloud Computing"
+    url: "/benchmarks/cloud-computing/"
+  - title: "Green Computing"
+    url: "/benchmarks/green-computing/"
+  - title: "Systèmes Distribués"
+    url: "/benchmarks/distributed-systems/"
+  - title: "IoT"
+    url: "/benchmarks/iot/"
+  - title: "Énergie"
+    url: "/benchmarks/energy/"
+  - title: "Calcul Parallèle"
+    url: "/benchmarks/parallel-computing/"
+  - title: "HPC"
+    url: "/benchmarks/hpc/"
+  - title: "À propos"
+    url: "/about/"
+  - title: "Contribuer"
+    url: "/contribute/"
+
+# SEO settings
+seo:
+  type: "Organization"
+  name: "Research Benchmark Hub"
+  links:
+    - "https://github.com/research-benchmark-hub"
+
+# Analytics (to be configured later)
+# google_analytics: UA-XXXXXXXX-X
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - LICENSE
+  - .kiro/

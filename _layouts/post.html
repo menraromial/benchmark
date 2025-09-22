@@ -1,0 +1,179 @@
+---
+layout: default
+---
+
+<article class="post">
+  
+  <header class="post-header">
+    <div class="container">
+      <h1 class="post-title">{{ page.title | escape }}</h1>
+      
+      <div class="post-meta">
+        <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+          {{ page.date | date: "%d %B %Y" }}
+        </time>
+        
+        {% if page.author %}
+          <span class="post-author">par {{ page.author }}</span>
+        {% endif %}
+        
+        {% if page.categories and page.categories.size > 0 %}
+          <div class="post-categories">
+            {% for category in page.categories %}
+              <span class="post-category">{{ category }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="container">
+      {{ content }}
+    </div>
+  </div>
+  
+  {% if page.tags and page.tags.size > 0 %}
+    <footer class="post-footer">
+      <div class="container">
+        <div class="post-tags">
+          <span class="tags-label">Tags:</span>
+          {% for tag in page.tags %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </footer>
+  {% endif %}
+  
+</article>
+
+<style>
+.post-header {
+  background-color: #f8f9fa;
+  padding: 3rem 0 2rem 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.post-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.post-date {
+  font-weight: 500;
+}
+
+.post-author {
+  &::before {
+    content: "•";
+    margin-right: 0.5rem;
+  }
+}
+
+.post-categories {
+  display: flex;
+  gap: 0.5rem;
+  
+  &::before {
+    content: "•";
+    margin-right: 0.5rem;
+  }
+}
+
+.post-category {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.post-content {
+  padding: 3rem 0;
+  
+  h2, h3, h4, h5, h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  
+  ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+    
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+  }
+  
+  blockquote {
+    border-left: 4px solid #3498db;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #6c757d;
+  }
+  
+  code {
+    background-color: #f8f9fa;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    font-size: 0.875em;
+  }
+  
+  pre {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+}
+
+.post-footer {
+  background-color: #f8f9fa;
+  padding: 2rem 0;
+  border-top: 1px solid #dee2e6;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.tags-label {
+  font-weight: 600;
+  color: #495057;
+}
+</style>
